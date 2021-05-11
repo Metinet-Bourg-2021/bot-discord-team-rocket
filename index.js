@@ -2,7 +2,7 @@ require('dotenv').config();
 const fs = require('fs');
 const Discord = require('discord.js');
 const music = require('./Modules/Musique');
-const DB = require('./data/trigger');
+const DB = '/data/trigger.json';
 
 const client = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
 
@@ -207,7 +207,6 @@ client.on('message', async (message) => {
             let triggers = JSON.parse(data);
             let trig = triggers.find(p => p.trigger === trigger);
 
-            console.log(trig);
 
             if(!trig){
                 trig = {
