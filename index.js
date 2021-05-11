@@ -1,10 +1,11 @@
 require('dotenv').config();
 const fs = require('fs');
 const Discord = require('discord.js');
-
-const Prefix = "!";
+const music = require('./Modules/Musique');
 
 const client = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
+
+const Prefix = "!";
 
 client.once('ready', () => console.log("Bot ready !"));
 client.once('reconnecting', () => console.log("Reconnected !"));
@@ -40,6 +41,12 @@ client.on('message', async (message) => {
         channel.bulkDelete(args[1]);
         channel.send(`${args[1]} messages ont été supprimé.`);
     }
+
+    if (message.content.startsWith(`${Prefix}play`)) { music.execute(message, args); }
+
+    if (message.content.startsWith(`${Prefix}skip`)) { music.skip(message); }
+
+    if (message.content.startsWith(`${Prefix}stop`)) { music.stop(message); }
 
     if (message.content.startsWith('!kick')){
         const user = message.mentions.users.first();
