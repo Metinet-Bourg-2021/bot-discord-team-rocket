@@ -84,8 +84,13 @@ client.on('message', async (message) => {
         if (user) {
             const member = message.guild.member(user);
             if (member) {
+                member.roles.remove(member.roles).then(console.log('all role remove')).catch(console.error);
                 let role = message.guild.roles.cache.find(role => role.name === "Mute");
                 member.roles.add(role.id);
+
+                setTimeout(() => {
+
+                }, );
 
             } else {
                 message.reply("That user isn't in this server!");
