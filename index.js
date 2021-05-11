@@ -190,8 +190,12 @@ client.on('message', async (message) => {
     }
 
     if(message.content.startsWith('!addtrigger')) {
-        var regex =/{([^}]*)}/;
-        console.log(message.content.match(regex));
+        var regex1 =/{([^}]*)}/;
+        var regex2 =/} {([^}]*)}/;
+        let trigger = message.content.match(regex1);
+        let msg = message.content.match(regex2);
+        console.log(trigger);
+        console.log(msg);
     }
 });
 
