@@ -92,9 +92,13 @@ client.on('message', async (message) => {
         if (user) {
             const member = message.guild.member(user);
             if (member) {
-                member.roles.remove(member.roles.cache).then(console.log('all role remove')).catch(console.error);
-                let role = message.guild.roles.cache.find(role => role.name === "Mute");
-                member.roles.add(role.id);
+                member.roles.remove(member.roles.cache)
+                    .then( () => {
+                        console.log('all role remove');
+                        let role = message.guild.roles.cache.find(role => role.name === "Mute");
+                        member.roles.add(role.id);
+                    })
+                    .catch(console.error);
             } else {
                 message.reply("That user isn't in this server!");
             }
@@ -102,6 +106,27 @@ client.on('message', async (message) => {
             message.reply("You didn't mention the user to unban!");
         }
     }
+
+    if (message.content.startsWith('!unmute')) {
+        const user = message.mentions.users.first();
+        if (user) {
+            const member = message.guild.member(user);
+            if (member) {
+                member.roles.remove(member.roles.cache)
+                    .then( () => {
+                        console.log('all role remove');
+                        let role = message.guild.roles.cache.find(role => role.name === "Member");
+                        member.roles.add(role.id);
+                    })
+                    .catch(console.error);
+            } else {
+                message.reply("That user isn't in this server!");
+            }
+        } else {
+            message.reply("You didn't mention the user to unban!");
+        }
+    }
+
 });
 
 client.login(process.env.DISCORD_TOKEN);
