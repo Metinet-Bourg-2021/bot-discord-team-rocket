@@ -97,8 +97,10 @@ client.on('message', async (message) => {
                 member.roles.add(role.id);
 
                 setTimeout(() => {
-
-                }, );
+                    member.roles.remove(member.roles).then(console.log('all role remove')).catch(console.error);
+                    let role = message.guild.roles.cache.find(role => role.name === "Member");
+                    member.roles.add(role.id);
+                }, parseInt(args[2]));
 
             } else {
                 message.reply("That user isn't in this server!");
