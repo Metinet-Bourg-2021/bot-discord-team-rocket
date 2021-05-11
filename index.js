@@ -2,6 +2,7 @@ require('dotenv').config();
 const fs = require('fs');
 const Discord = require('discord.js');
 const music = require('./Modules/Musique');
+const DB = require('./data/trigger');
 
 const client = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
 
@@ -194,8 +195,29 @@ client.on('message', async (message) => {
         var regex2 =/} {([^}]*)}/;
         let trigger = message.content.match(regex1);
         let msg = message.content.match(regex2);
-        console.log(trigger[1]);
-        console.log(msg[1]);
+        trigger = trigger[1];
+        msg = msg[1];
+
+        fs.readFile(DB, (err, data) => {
+            let triggers = JSON.parse(data);
+            let trig = triggers.find(p => p.trigger === trigger);
+
+            if(!trig){
+                trig = {
+                    trigger: trigger,
+                    message: msg
+                };
+                //Le trigger n'existe pas on doit donc l'ajouter
+                fs.writeFile(DATABASE, JSON.stringify(trig), (err) => {
+                    //On affiche un message de validation
+                    message.reply("Trigger succesfully added");
+                });
+            }
+            else{
+                //Le trigger existe on doit renvoyer un message d'erreur
+                message.reply("Trigger already existe");
+            }
+        });
     }
 });
 
