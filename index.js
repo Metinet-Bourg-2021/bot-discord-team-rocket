@@ -14,32 +14,84 @@ client.on('message', async (message) => {
     if (message.content.startsWith('!kick')){
         const user = message.mentions.users.first();
         if (user) {
-            // Now we get the member from the user
             const member = message.guild.member(user);
-            // If the member is in the guild
             if (member) {
-
                 member
                     .kick('Optional reason that will display in the audit logs')
                     .then(() => {
-                        // We let the message author know we were able to kick the person
                         message.reply(`Successfully kicked ${user.tag}`);
                     })
                     .catch(err => {
-                        // An error happened
-                        // This is generally due to the bot not being able to kick the member,
-                        // either due to missing permissions or role hierarchy
                         message.reply('I was unable to kick the member');
-                        // Log the error
                         console.error(err);
                     });
             } else {
-                // The mentioned user isn't in this guild
-                message.reply("That user isn't in this guild!");
+                message.reply("That user isn't in this server!");
             }
-            // Otherwise, if no user was mentioned
         } else {
             message.reply("You didn't mention the user to kick!");
+        }
+    }
+
+    if (message.content.startsWith('!ban')) {
+        const user = message.mentions.users.first();
+        if (user) {
+            const member = message.guild.member(user);
+            if (member) {
+                member
+                    .ban({
+                        reason: 'They were bad!',
+                    })
+                    .then(() => {
+                        message.reply(`Successfully banned ${user.tag}`);
+                    })
+                    .catch(err => {
+                        message.reply('I was unable to ban the member');
+                        console.error(err);
+                    });
+            } else {
+                message.reply("That user isn't in this server!");
+            }
+        } else {
+            message.reply("You didn't mention the user to ban!");
+        }
+    }
+
+    if (message.content.startsWith('!unban')) {
+        const user = message.mentions.users.first();
+        if (user) {
+            const member = message.guild.member(user);
+            if (member) {
+                member
+                    .unban(member)
+                    .then(() => {
+                        message.reply(`Successfully unbanned ${user.tag}`);
+                    })
+                    .catch(err => {
+                        message.reply('I was unable to unban the member');
+                        console.error(err);
+                    });
+            } else {
+                message.reply("That user isn't in this server!");
+            }
+        } else {
+            message.reply("You didn't mention the user to unban!");
+        }
+    }
+
+    if (message.content.startsWith('!mute')) {
+        const user = message.mentions.users.first();
+        if (user) {
+            const member = message.guild.member(user);
+            if (member) {
+                let role = message.guild.roles.cache.find(role => role.name === "Mute");
+                member.roles.add(role.id);
+
+            } else {
+                message.reply("That user isn't in this server!");
+            }
+        } else {
+            message.reply("You didn't mention the user to unban!");
         }
     }
 });
