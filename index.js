@@ -190,8 +190,8 @@ client.on('message', async (message) => {
     }
 
     if(message.content.startsWith('!addtrigger')) {
-        var regex ='{getThis}';
-        console.log(message.content.substring(1,regex.length-1));
+        var regex =/{([^}]*)}/;
+        console.log(message.content.match(regex));
     }
 });
 
