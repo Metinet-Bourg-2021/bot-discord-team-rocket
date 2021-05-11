@@ -148,6 +148,30 @@ client.on('message', async (message) => {
         }
     }
 
+    if(message.content.startsWith('!getroles')) {
+        const channel = client.channels.cache.find(c => c.id === "841608941992542239");
+        let message = channel.send('choisissez votre Starter');
+        message.react(':whale:').then(() => message.react(':crocodile')).then(() => message.react(':bird:'));
+
+        message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+            .then(collected => {
+                const reaction = collected.first();
+
+                if (reaction.emoji.name === ':whale:') {
+                    console.log(reaction.users);
+                }
+                if (reaction.emoji.name === ':crocodile')
+                {
+                    console.log(reaction.users);
+                }
+                if(reaction.emoji.name === ':bird:'){
+                    console.log(reaction.users);
+                }
+            })
+            .catch(collected => {
+                message.reply('you reacted with neither a thumbs up, nor a thumbs down.');
+            });
+    }
 });
 
 client.login(process.env.DISCORD_TOKEN);
