@@ -151,7 +151,9 @@ client.on('message', async (message) => {
     if(message.content.startsWith('!getroles')) {
         const channel = client.channels.cache.find(c => c.id === "841608941992542239");
         let message = channel.send('choisissez votre Starter');
-        message.react('\:whale:').then(() => message.react('\:crocodile')).then(() => message.react('\:bird:'));
+        message.react('1cb536137c5e70d114922edd3d3faaa0');
+        message.react('cf725f98edb284d25530f5dbd7d30ee4');
+        message.react('fface028e87dd156db7f772d5009211e');
 
         message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
             .then(collected => {
