@@ -152,22 +152,27 @@ client.on('message', async (message) => {
         const channel = client.channels.cache.find(c => c.id === "841608941992542239");
         let message = channel.send('choisissez votre Starter');
 
-        message.react('🐳');
-        message.react('🐦');
-        message.react('🐊');
+        message.react('🐳').then(() => console.log('yes')).catch(console.error);
+        message.react('🐦').then(() => console.log('yes')).catch(console.error);
+        message.react('🐊').then(() => console.log('yes')).catch(console.error);
 
-        message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+        const filter = (reaction, user) => {
+            return ['🐳', '🐦', '🐊'];
+        };
+
+
+        message.awaitReactions( filter,{ max: 1, time: 60000, errors: ['time'] })
             .then(collected => {
                 const reaction = collected.first();
 
-                if (reaction.emoji.name === ':whale:') {
+                if (reaction.emoji.name === '🐳') {
                     console.log(reaction.users);
                 }
-                if (reaction.emoji.name === ':crocodile')
+                if (reaction.emoji.name === '🐦')
                 {
                     console.log(reaction.users);
                 }
-                if(reaction.emoji.name === ':bird:'){
+                if(reaction.emoji.name === '🐊'){
                     console.log(reaction.users);
                 }
             })
