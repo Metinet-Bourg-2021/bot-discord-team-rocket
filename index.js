@@ -194,8 +194,8 @@ client.on('message', async (message) => {
         var regex2 =/} {([^}]*)}/;
         let trigger = message.content.match(regex1);
         let msg = message.content.match(regex2);
-        console.log(trigger);
-        console.log(msg);
+        console.log(trigger[1]);
+        console.log(msg[1]);
     }
 });
 
