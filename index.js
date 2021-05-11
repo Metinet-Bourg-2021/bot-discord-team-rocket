@@ -207,13 +207,16 @@ client.on('message', async (message) => {
             let triggers = JSON.parse(data);
             let trig = triggers.find(p => p.trigger === trigger);
 
+            console.log(trig);
+
             if(!trig){
                 trig = {
                     trigger: trigger,
                     message: msg
                 };
+                triggers.push(trig);
                 //Le trigger n'existe pas on doit donc l'ajouter
-                fs.writeFile(DB, JSON.stringify(trig), (err) => {
+                fs.writeFile(DB, JSON.stringify(triggers), (err) => {
                     if(err)
                         return console.log(err.message);
                     //On affiche un message de validation
