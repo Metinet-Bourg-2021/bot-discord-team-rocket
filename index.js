@@ -49,6 +49,8 @@ client.on('message', async (message) => {
 
     if (message.content.startsWith(`${Prefix}stop`)) { music.stop(message); }
 
+    if (message.content.startsWith(`${Prefix}queue`)) { music.getQueue(message); }
+
     if (message.content.startsWith('!kick')){
         const user = message.mentions.users.first();
         if (user) {

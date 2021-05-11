@@ -1,4 +1,5 @@
 const ytdl = require('ytdl-core');
+const Discord = require('discord.js');
 
 const queue = new Map();
 
@@ -88,8 +89,43 @@ function stop(message) {
     } else { return channel.send(`Vous devez être dans un salon vocal pour stopper la lecture.`); }
 }
 
+function getQueue(message) {
+    const serverQueue = queue.get(message.guild.id);
+    const channel = message.channel;
+
+    const msgEmbed = new Discord.MessageEmbed()
+        .setColor('#3089FF')
+        .setTitle(`File d'attente`)
+        .setFooter(`Team Rocket`);
+
+    if (serverQueue) {
+        msgEmbed.addFields(
+            { name: 'En cours', value: serverQueue.songs[0].title }
+        );
+
+        if (serverQueue.songs.slice(1).length !== 0) {
+            let str = '';
+            let index = 1
+            serverQueue.songs.slice(1).forEach(song => {
+                str += `${index} - ${song.title} \n`;
+                index++;
+            });
+
+            msgEmbed.addFields(
+                { name: 'En attente', value: str }
+            );
+        }
+
+    } else {
+        msgEmbed.setDescription(`La liste d'attente est vide !`);
+    }
+
+    return channel.send(msgEmbed);
+}
+
 module.exports = {
     execute: execute,
     skip: skip,
-    stop: stop
+    stop: stop,
+    getQueue: getQueue
 }
