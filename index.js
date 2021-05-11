@@ -11,6 +11,14 @@ client.once('disconnect', () => console.log("Disconnected !"));
 
 client.on('message', async (message) => {
 	//Listen to send messages on the server
+    let channel = message.channel;
+    let args = message.content.split(' ');
+
+    if (message.content.startsWith(`${Prefix}clear`)) {
+        channel.bulkDelete(args[1]);
+        channel.send(`${args[1]} messages ont été supprimé.`);
+    }
+
     if (message.content.startsWith('!kick')){
         const user = message.mentions.users.first();
         if (user) {
