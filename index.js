@@ -1,4 +1,5 @@
 require('dotenv').config();
+const fs = require('fs');
 const Discord = require('discord.js');
 
 const Prefix = "!";
@@ -179,6 +180,11 @@ client.on('message', async (message) => {
             .catch(collected => {
                 message.reply('you reacted with neither a thumbs up, nor a thumbs down.');
             });
+    }
+
+    if(message.content.startsWith('!addtrigger')) {
+        var regex ='{getThis}';
+        console.log(message.content.substring(1,regex.length-1));
     }
 });
 
