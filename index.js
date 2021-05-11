@@ -9,10 +9,31 @@ client.once('ready', () => console.log("Bot ready !"));
 client.once('reconnecting', () => console.log("Reconnected !"));
 client.once('disconnect', () => console.log("Disconnected !"));
 
+client.on('guildMemberAdd', async (member) => {
+    const channel = member.guild.channels.cache.find(c => c.id === "841601584122691585");
+    channel.send(`${member} est de retour pour vous jouer de mauvais tours ! :cat:`);
+
+    member.roles.add("837635122655133756");
+});
+
 client.on('message', async (message) => {
 	//Listen to send messages on the server
     let channel = message.channel;
     let args = message.content.split(' ');
+
+    if (message.content.startsWith(`${Prefix}dev`)) {
+
+    }
+
+    if (message.content.startsWith(`${Prefix}role`)) {
+        const user = message.mentions.users.first();
+        if (user) {
+            const member = message.guild.member(user);
+            if (member) {
+                member.roles.add("837635122655133756")
+            }
+        }
+    }
 
     if (message.content.startsWith(`${Prefix}clear`)) {
         channel.bulkDelete(args[1]);
