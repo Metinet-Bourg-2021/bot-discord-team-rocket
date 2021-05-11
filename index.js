@@ -199,6 +199,9 @@ client.on('message', async (message) => {
         msg = msg[1];
 
         fs.readFile(DB, (err, data) => {
+            if(err)
+                return console.log(err.message);
+
             let triggers = JSON.parse(data);
             let trig = triggers.find(p => p.trigger === trigger);
 
@@ -208,7 +211,9 @@ client.on('message', async (message) => {
                     message: msg
                 };
                 //Le trigger n'existe pas on doit donc l'ajouter
-                fs.writeFile(DATABASE, JSON.stringify(trig), (err) => {
+                fs.writeFile(DB, JSON.stringify(trig), (err) => {
+                    if(err)
+                        return console.log(err.message);
                     //On affiche un message de validation
                     message.reply("Trigger succesfully added");
                 });
