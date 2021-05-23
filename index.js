@@ -30,7 +30,7 @@ client.on('message', async (message) => {
 
         let triggers = JSON.parse(data);
         let trigger = triggers.find(p => p.trigger === message);
-
+        console.log(trigger);
         if(trigger){
             console.log('test');
             message.reply(trigger.message);
