@@ -349,23 +349,23 @@ client.on('message', async (message) => {
     if(message.content.startsWith('!help')){
 
         let reponse =
-            "!clear <nombre de message a effacer>: Efface les derniers message \n" +
-            "!help: voir la liste des commandes \n" +
-            "!mute <membre a mute>: Mute un membre du serveur \n" +
-            "!unmute <membre a unmute>: Unmute un membre du serveur \n" +
-            "!kick <membre a kick>: Kick un membre du server \n" +
-            "!ban <membre a ban>: Ban un membre du serveur \n" +
-            "!unban <membre a unban>: Unban un membre du serveur \n" +
-            "!getroles: affiche un message, cliquer sur les réaction pour obtenir le role \n" +
-            "!addtrigger <{trigger}> <{reponse}>: Ajoute un trigger \n" +
-            "!deltrigger <{trigger}>: Supprime un trigger \n" +
-            "!showtrigger: Voir tout les trigger \n" +
-            "!poll <question> <liste de reponse>: Créer un sondage, chaque réponse doit etre entourer par des guillemets \n" +
-            "!play <url>: Joue de la musique \n" +
-            "!queue: Montre la file d'attente de la musique \n" +
-            "!stop: Arrete la musique \n" +
-            "!skip: Passe a la musique suivante \n" +
-            "!apero: indique si c'est le l'heure de l'apéro"
+            "!clear <nombre de message a effacer> : Efface les derniers message \n" +
+            "!help : voir la liste des commandes \n" +
+            "!mute <membre a mute> : Mute un membre du serveur \n" +
+            "!unmute <membre a unmute> : Unmute un membre du serveur \n" +
+            "!kick <membre a kick> : Kick un membre du server \n" +
+            "!ban <membre a ban> : Ban un membre du serveur \n" +
+            "!unban <membre a unban> : Unban un membre du serveur \n" +
+            "!getroles : affiche un message, cliquer sur les réaction pour obtenir le role \n" +
+            "!addtrigger <{trigger}> <{reponse}> : Ajoute un trigger \n" +
+            "!deltrigger <{trigger}> : Supprime un trigger \n" +
+            "!showtrigger : Voir tout les trigger \n" +
+            "!poll <question> <\"réponse 1\"> <\"réponse 2\"> ... : Créer un sondage, chaque réponse doit etre entourer par des guillemets \n" +
+            "!play <url> : Joue la musique / l'ajoute à la queue \n" +
+            "!queue : Montre la file d'attente de la musique \n" +
+            "!stop : Arrete la musique \n" +
+            "!skip : Passe a la musique suivante \n" +
+            "!apero : indique si c'est le l'heure de l'apéro"
         ;
 
         let messageEmbed = new Discord.MessageEmbed()
