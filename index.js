@@ -360,11 +360,13 @@ client.on('message', async (message) => {
             "!addtrigger <{trigger}> <{reponse}>: Ajoute un trigger \n" +
             "!deltrigger <{trigger}>: Supprime un trigger \n" +
             "!showtrigger: Voir tout les trigger \n" +
-            "!pole <question> <liste de reponse>: Créer un sondage, chaque réponse doit etre entourer par des guillemets \n" +
+            "!poll <question> <liste de reponse>: Créer un sondage, chaque réponse doit etre entourer par des guillemets \n" +
             "!play <url>: Joue de la musique \n" +
             "!queue: Montre la file d'attente de la musique \n" +
             "!stop: Arrete la musique \n" +
-            "!skip: Passe a la musique suivante";
+            "!skip: Passe a la musique suivante \n" +
+            "!apero: indique si c'est le l'heure de l'apéro"
+        ;
 
         let messageEmbed = new Discord.MessageEmbed()
             .setColor('#3089FF')
