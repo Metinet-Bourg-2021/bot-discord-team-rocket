@@ -289,6 +289,7 @@ client.on('message', async (message) => {
                 .setTitle(`Liste des triggers`)
                 .setFooter(reponse);
 
+            message.channel.send(messageEmbed);
         });
     }
 });
