@@ -206,8 +206,8 @@ client.on('message', async (message) => {
     }
 
     if(message.content.startsWith('!addtrigger')) {
-        var regex1 =/{([^}]*)}/;
-        var regex2 =/} {([^}]*)}/;
+        let regex1 =/{([^}]*)}/;
+        let regex2 =/} {([^}]*)}/;
         let trigger = message.content.match(regex1);
         let msg = message.content.match(regex2);
         trigger = trigger[1];
@@ -233,6 +233,39 @@ client.on('message', async (message) => {
                         return console.log(err.message);
                     //On affiche un message de validation
                     message.reply("Trigger succesfully added");
+                });
+            }
+            else{
+                //Le trigger existe on doit renvoyer un message d'erreur
+                message.reply("Trigger already existe");
+            }
+        });
+    }
+
+    if(message.content.startsWith('!deltrigger')) {
+        let regex1 =/{([^}]*)}/;
+        let trigger = message.content.match(regex1);
+        trigger = trigger[1];
+        fs.readFile(DB, (err, data) => {
+            if(err)
+                return console.log(err.message);
+
+            let triggers = JSON.parse(data);
+            let trig = triggers.find(p => p.trigger === trigger);
+
+
+            if(trig){
+                console.log(triggers);
+                triggers = triggers.filter(function(value, inde, arr){
+                   return value !== trig;
+                });
+                console.log(triggers);
+                //Le trigger n'existe pas on doit donc l'ajouter
+                fs.writeFile(DB, JSON.stringify(triggers), (err) => {
+                    if(err)
+                        return console.log(err.message);
+                    //On affiche un message de validation
+                    message.reply("Trigger succesfully Removed");
                 });
             }
             else{
