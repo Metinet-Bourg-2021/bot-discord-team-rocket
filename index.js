@@ -30,12 +30,13 @@ client.on('message', async (message) => {
 
         let triggers = JSON.parse(data);
         console.log(message.content);
-        let trigger = triggers.find(p => p.trigger === message.content);
-        console.log(trigger);
-        if(trigger){
-            console.log('test');
-            message.reply(trigger.message);
-        }
+        triggers.forEach(item => {
+            console.log(item.trigger);
+            if(item.trigger === message.content){
+                console.log('test');
+                message.reply(trigger.message);
+            }
+        });
     });
 
     if (message.content.startsWith(`${Prefix}dev`)) {
