@@ -29,12 +29,10 @@ client.on('message', async (message) => {
             return console.log(err.message);
 
         let triggers = JSON.parse(data);
-        console.log(message.content);
         triggers.forEach(item => {
-            console.log(item.trigger);
             if(item.trigger === message.content){
-                console.log('test');
-                message.reply(trigger.message);
+                console.log("marche");
+                message.reply(item.message);
             }
         });
     });
