@@ -29,6 +29,7 @@ client.on('message', async (message) => {
             return console.log(err.message);
 
         let triggers = JSON.parse(data);
+        console.log(message.content);
         let trigger = triggers.find(p => p.trigger === message.content);
         console.log(trigger);
         if(trigger){
