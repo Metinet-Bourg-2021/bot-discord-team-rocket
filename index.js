@@ -251,11 +251,9 @@ client.on('message', async (message) => {
 
 
             if(trig){
-                console.log(triggers);
                 triggers = triggers.filter(function(value, inde, arr){
                    return value !== trig;
                 });
-                console.log(triggers);
                 //Le trigger n'existe pas on doit donc l'ajouter
                 fs.writeFile(DB, JSON.stringify(triggers), (err) => {
                     if(err)
@@ -266,8 +264,31 @@ client.on('message', async (message) => {
             }
             else{
                 //Le trigger existe on doit renvoyer un message d'erreur
-                message.reply("Trigger already existe");
+                message.reply("Trigger don't existe");
             }
+        });
+    }
+
+    if(message.content.startsWith('!showtrigger')) {
+        fs.readFile(DB, (err, data) => {
+            if(err)
+                return console.log(err.message);
+
+            let triggers = JSON.parse(data);
+
+            let reponse = '';
+
+            triggers.forEach(item => {
+                reponse += item.trigger;
+                reponse += '\n';
+            });
+
+
+            let messageEmbed = new Discord.MessageEmbed()
+                .setColor('#3089FF')
+                .setTitle(`Liste des triggers`)
+                .setFooter(reponse);
+
         });
     }
 });
