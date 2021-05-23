@@ -85,8 +85,15 @@ client.on('message', async (message) => {
     }
 
     if (message.content.startsWith(`${Prefix}clear`)) {
-        channel.bulkDelete(args[1]);
-        channel.send(`${args[1]} messages ont été supprimé.`);
+        if (args[1] !== undefined) {
+            if (Number.isInteger(Number(args[1]))) {
+                channel.bulkDelete(args[1]);
+                channel.send(`${args[1]} messages ont été supprimé.`);
+            }
+        } else {
+            channel.bulkDelete(2);
+            channel.send(`1 message a été supprimé.`);
+        }
     }
 
     if (message.content.startsWith(`${Prefix}play`)) { music.execute(message, args); }
