@@ -38,7 +38,13 @@ client.on('message', async (message) => {
     });
 
     if (message.content.startsWith(`${Prefix}dev`)) {
-
+        let embedPoll = new Discord.MessageEmbed()
+            .setTitle('😲 New Poll! 😲')
+            .setDescription('Test')
+            .setColor('YELLOW')
+        let msgEmbed = await channel.send(embedPoll);
+        await msgEmbed.react('👍')
+        await msgEmbed.react('👎')
     }
 
     if (message.content.startsWith(`${Prefix}role`)) {
@@ -63,6 +69,17 @@ client.on('message', async (message) => {
     if (message.content.startsWith(`${Prefix}stop`)) { music.stop(message); }
 
     if (message.content.startsWith(`${Prefix}queue`)) { music.getQueue(message); }
+
+    if (message.content.startsWith(`${Prefix}poll`)) {
+        let pollMsgEmbed = new Discord.MessageEmbed()
+            .setTitle(args[1])
+            .setDescription(':regional_indicator_a:')
+        ;
+
+        let msg = await channel.send(pollMsgEmbed);
+        console.log(client.emojis.cache)
+        // await msg.react(message.guild.emojis.cache.find(emoji => emoji.name === 'regional_indicator_a'));
+    }
 
     if (message.content.startsWith('!kick')){
         const user = message.mentions.users.first();
@@ -174,35 +191,14 @@ client.on('message', async (message) => {
 
     if(message.content.startsWith('!getroles')) {
         const channel = client.channels.cache.find(c => c.id === "841608941992542239");
-        let message = channel.send('choisissez votre Starter');
+        let messageEmbed = new Discord.MessageEmbed()
+            .setColor('#3089FF')
+            .setTitle(`Choisissez votre Starter`)
+            .setFooter(`Team Rocket`);
 
-        message.react('🐳').then(() => console.log('yes')).catch(console.error);
-        message.react('🐦').then(() => console.log('yes')).catch(console.error);
-        message.react('🐊').then(() => console.log('yes')).catch(console.error);
-
-        const filter = (reaction, user) => {
-            return ['🐳', '🐦', '🐊'];
-        };
-
-
-        message.awaitReactions( filter,{ max: 1, time: 60000, errors: ['time'] })
-            .then(collected => {
-                const reaction = collected.first();
-
-                if (reaction.emoji.name === '🐳') {
-                    console.log(reaction.users);
-                }
-                if (reaction.emoji.name === '🐦')
-                {
-                    console.log(reaction.users);
-                }
-                if(reaction.emoji.name === '🐊'){
-                    console.log(reaction.users);
-                }
-            })
-            .catch(collected => {
-                message.reply('you reacted with neither a thumbs up, nor a thumbs down.');
-            });
+        let message = await channel.send(messageEmbed);
+        await message.react('🐳');
+        await message.react('🐦');
     }
 
     if(message.content.startsWith('!addtrigger')) {
@@ -273,6 +269,32 @@ client.on('message', async (message) => {
                 message.reply("Trigger already existe");
             }
         });
+    }
+});
+
+client.on("messageReactionAdd", (reaction, user) => {
+    if(!user || user.bot || !reaction.message.channel.guild) {  return; }
+
+    if (reaction.emoji.name === '🐳') {
+        let role = reaction.message.guild.roles.cache.find(role => role.name === "Team 1");
+        reaction.message.guild.member(user).roles.add(role.id)
+    }
+    if (reaction.emoji.name === '🐦') {
+        let role = reaction.message.guild.roles.cache.find(role => role.name === "Team 2");
+        reaction.message.guild.member(user).roles.add(role.id)
+    }
+});
+
+client.on("messageReactionRemove", (reaction, user) => {
+    if(!user || user.bot || !reaction.message.channel.guild) {  return; }
+
+    if (reaction.emoji.name === '🐳') {
+        let role = reaction.message.guild.roles.cache.find(role => role.name === "Team 1");
+        reaction.message.guild.member(user).roles.remove(role.id)
+    }
+    if (reaction.emoji.name === '🐦') {
+        let role = reaction.message.guild.roles.cache.find(role => role.name === "Team 2");
+        reaction.message.guild.member(user).roles.remove(role.id)
     }
 });
 
