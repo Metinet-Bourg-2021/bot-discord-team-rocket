@@ -2,7 +2,7 @@ require('dotenv').config();
 const fs = require('fs');
 const Discord = require('discord.js');
 const music = require('./Modules/Musique');
-const DB = '/data/trigger.json';
+const DB = './data/trigger.json';
 
 const client = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
 
@@ -23,6 +23,19 @@ client.on('message', async (message) => {
 	//Listen to send messages on the server
     let channel = message.channel;
     let args = message.content.split(' ');
+
+    fs.readFile(DB, (err, data) => {
+        if(err)
+            return console.log(err.message);
+
+        let triggers = JSON.parse(data);
+        let trigger = triggers.find(p => p.trigger === message);
+
+        if(trigger){
+            console.log('test');
+            message.reply(trigger.message);
+        }
+    });
 
     if (message.content.startsWith(`${Prefix}dev`)) {
 
