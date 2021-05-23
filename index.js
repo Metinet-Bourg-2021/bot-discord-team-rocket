@@ -7,6 +7,35 @@ const DB = './data/trigger.json';
 const client = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
 
 const Prefix = "!";
+const hourApero = 18;
+const options = [
+    '🇦',
+    '🇧',
+    '🇨',
+    '🇩',
+    '🇪',
+    '🇫',
+    '🇬',
+    '🇭',
+    '🇮',
+    '🇯',
+    '🇰',
+    '🇱',
+    '🇲',
+    '🇳',
+    '🇴',
+    '🇵',
+    '🇶',
+    '🇷',
+    '🇸',
+    '🇹',
+    '🇺',
+    '🇻',
+    '🇼',
+    '🇽',
+    '🇾',
+    '🇿',
+];
 
 client.once('ready', () => console.log("Bot ready !"));
 client.once('reconnecting', () => console.log("Reconnected !"));
@@ -37,24 +66,22 @@ client.on('message', async (message) => {
         });
     });
 
-    if (message.content.startsWith(`${Prefix}dev`)) {
-        let embedPoll = new Discord.MessageEmbed()
-            .setTitle('😲 New Poll! 😲')
-            .setDescription('Test')
-            .setColor('YELLOW')
-        let msgEmbed = await channel.send(embedPoll);
-        await msgEmbed.react('👍')
-        await msgEmbed.react('👎')
-    }
+    if (message.content.startsWith(`${Prefix}apero`)) {
+        let hour = new Date().getHours();
+        let verif = hourApero - hour;
+        let messageEmbed = new Discord.MessageEmbed()
+            .setColor('#3089FF')
+            .setFooter(`Team Rocket`);
 
-    if (message.content.startsWith(`${Prefix}role`)) {
-        const user = message.mentions.users.first();
-        if (user) {
-            const member = message.guild.member(user);
-            if (member) {
-                member.roles.add("837635122655133756")
-            }
+        if (verif === 0) {
+            messageEmbed.setTitle(`C'est enfin l'heure de l'apéro... Santé ! 🍻 `);
+        } else if (verif > 0) {
+            messageEmbed.setTitle(`Ce n'est pas encore l'heure mais courage ça arrive 😉`);
+        } else if (verif < 0) {
+            messageEmbed.setTitle(`L'heure est passée... prend un verre et dépèche toi de nous rejoindre ! 😀`);
         }
+
+        message.channel.send(messageEmbed);
     }
 
     if (message.content.startsWith(`${Prefix}clear`)) {
@@ -71,14 +98,33 @@ client.on('message', async (message) => {
     if (message.content.startsWith(`${Prefix}queue`)) { music.getQueue(message); }
 
     if (message.content.startsWith(`${Prefix}poll`)) {
-        let pollMsgEmbed = new Discord.MessageEmbed()
-            .setTitle(args[1])
-            .setDescription(':regional_indicator_a:')
-        ;
+        let question = [];
 
-        let msg = await channel.send(pollMsgEmbed);
-        console.log(client.emojis.cache)
-        // await msg.react(message.guild.emojis.cache.find(emoji => emoji.name === 'regional_indicator_a'));
+        for (let i = 1; i < args.length; i++) {
+            if (args[i].startsWith('"')) break;
+            else question.push(args[i]);
+        }
+        question = question.join(' ');
+
+        const choices = [];
+
+        const regex = /(["'])((?:\\\1|\1\1|(?!\1).)*)\1/g;
+        let match;
+        while (match = regex.exec(args.join(' '))) choices.push(match[2]);
+
+        let content = [];
+        for (let i = 0; i < choices.length; i++) content.push(`${options[i]} ${choices[i]}`);
+        content = content.join('\n');
+
+        let pollMsgEmbed = new Discord.MessageEmbed()
+            .setColor('#3089FF')
+            .setTitle(`**${question}**`)
+            .setDescription(content);
+
+        message.channel.send(`:bar_chart: ${message.author} a débuté un sondage.`, pollMsgEmbed)
+            .then(async m => {
+                for (let i = 0; i < choices.length; i++) await m.react(options[i]);
+            });
     }
 
     if (message.content.startsWith('!kick')){
